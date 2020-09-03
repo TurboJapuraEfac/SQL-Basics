@@ -1,0 +1,11 @@
+M001	Pharmacology	1	4	4
+E001	Electronics	2	3	1
+S001	Organic		3	3	1
+A001	Literature	4	3	2
+E002	Robotics	2	4	6
+M002	Psychology	1	2	5
+S002	Mathematics	3	4	3
+E004	Computing	2	4	5
+B001	Commerce	5	2	1
+S002	Programming	3	3	3
+S003	Statistics	3	4	3

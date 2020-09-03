@@ -1,0 +1,6 @@
+1000	Kamal	M	2000-01-10	18	003	Galle	kamal@mail.com
+1001	Amal	M	1999-12-25	19	002	Kandy	amal@mail.com
+1002	Nimal	M	1997-04-01	21	001	Jaffna	nimal@yao.com
+1003	Amali	F	1998-02-14	20	004	Kandy	amali@mail.com
+1004	Shamal	M	1997-04-14	21	003	Matara	sham97@yao.com
+1005	Nimali	F	1996-02-29	22	002	Colombo	nimmi@yao.com

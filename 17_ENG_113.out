@@ -1,0 +1,565 @@
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> USE ABC_Uni;
+ERROR 1049 (42000): Unknown database 'abc_uni'
+mysql> CREATE DATABASE ABC_Uni;
+Query OK, 1 row affected (0.05 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| abc_uni            |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> USE ABC_Uni;
+Database changed
+mysql> CREATE TABLE Faculties(Faculty_ID int NOT NULL, Faculty_name varchar(35) NOT NULL, Location varchar(20) NOT NULL);
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> CREATE TABLE lecturers(LecturerID int(5) NOT NULL,Title varchar(10) NOT NULL,Lecturer_name varchar(20) NOT NULL,FacultyID int(6) NOT NULL,Email varchar(25) NOT NULL);
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> CREATE TABLE Students(StudentID int(5) NOT NULL,FName varchar(20) NOT NULL,Gender char(1) NOT NULL,DOB date NOT NULL,Age int(2) NOT NULL,FacultyID int(6) NOT NULL,Town varchar(15) NOT NULL,Email varchar(25) NOT NULL);
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> CREATE TABLE Courses(CourseID varchar(6) NOT NULL,Course_name varchar(20) NOT NULL,FacultyID int(6) NOT NULL,noCredits int(1) NOT NULL,Semester int(1) NOT NULL);
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> DESCRIBE Faculties;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| Faculty_ID   | int(11)     | NO   |     | NULL    |       |
+| Faculty_name | varchar(35) | NO   |     | NULL    |       |
+| Location     | varchar(20) | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.10 sec)
+
+mysql> DESCRIBE lecturers;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| LecturerID    | int(5)      | NO   |     | NULL    |       |
+| Title         | varchar(10) | NO   |     | NULL    |       |
+| Lecturer_name | varchar(20) | NO   |     | NULL    |       |
+| FacultyID     | int(6)      | NO   |     | NULL    |       |
+| Email         | varchar(25) | NO   |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> DESCRIBE Students;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| StudentID | int(5)      | NO   |     | NULL    |       |
+| FName     | varchar(20) | NO   |     | NULL    |       |
+| Gender    | char(1)     | NO   |     | NULL    |       |
+| DOB       | date        | NO   |     | NULL    |       |
+| Age       | int(2)      | NO   |     | NULL    |       |
+| FacultyID | int(6)      | NO   |     | NULL    |       |
+| Town      | varchar(15) | NO   |     | NULL    |       |
+| Email     | varchar(25) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> DESCRIBE Courses;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| CourseID    | varchar(6)  | NO   |     | NULL    |       |
+| Course_name | varchar(20) | NO   |     | NULL    |       |
+| FacultyID   | int(6)      | NO   |     | NULL    |       |
+| noCredits   | int(1)      | NO   |     | NULL    |       |
+| Semester    | int(1)      | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> ALTER TABLE Faculties ADD PRIMARY KEY(Faculty_ID);
+Query OK, 0 rows affected (0.20 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE lecturers ADD PRIMARY KEY (LecturerID);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE lecturers ADD FOREIGN KEY (Faculty_ID) REFERENCES Faculties(Faculty_ID);
+ERROR 1072 (42000): Key column 'Faculty_ID' doesn't exist in table
+mysql> ALTER TABLE lecturers ADD FOREIGN KEY (FacultyID) REFERENCES Faculties(Faculty_ID);
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Students ADD PRIMARY KEY(StudentID);
+Query OK, 0 rows affected (0.18 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Students ADD FOREIGN KEY(FacultyID) REFERENCES Faculties(Faculty_ID);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Courses ADD PRIMARY KEY(CourseID);
+Query OK, 0 rows affected (0.25 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Courses ADD FOREIGN KEY(FacultyID) REFERENCES Faculties(Faculty_ID);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE Faculties;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| Faculty_ID   | int(11)     | NO   | PRI | NULL    |       |
+| Faculty_name | varchar(35) | NO   |     | NULL    |       |
+| Location     | varchar(20) | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql>  DESCRIBE lecturers;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| LecturerID    | int(5)      | NO   | PRI | NULL    |       |
+| Title         | varchar(10) | NO   |     | NULL    |       |
+| Lecturer_name | varchar(20) | NO   |     | NULL    |       |
+| FacultyID     | int(6)      | NO   | MUL | NULL    |       |
+| Email         | varchar(25) | NO   |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> Describe Students;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| StudentID | int(5)      | NO   | PRI | NULL    |       |
+| FName     | varchar(20) | NO   |     | NULL    |       |
+| Gender    | char(1)     | NO   |     | NULL    |       |
+| DOB       | date        | NO   |     | NULL    |       |
+| Age       | int(2)      | NO   |     | NULL    |       |
+| FacultyID | int(6)      | NO   | MUL | NULL    |       |
+| Town      | varchar(15) | NO   |     | NULL    |       |
+| Email     | varchar(25) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> DESCRIBE Courses;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| CourseID    | varchar(6)  | NO   | PRI | NULL    |       |
+| Course_name | varchar(20) | NO   |     | NULL    |       |
+| FacultyID   | int(6)      | NO   | MUL | NULL    |       |
+| noCredits   | int(1)      | NO   |     | NULL    |       |
+| Semester    | int(1)      | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO Faculties VALUES (1,'Medicine','Gampaha'),(2,'Engineering','Rathmalana'),(3,'Science','Kotte'),(4,'Technology','Nugegoda'),(5,'Business and finance','Maharagama');
+Query OK, 5 rows affected (0.14 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO lecturers VALUES(10317,'Prof','Nandana',3,'nandana @sci.abc.lk'),(10318,'Dr','Perera',2,'perera @eng.abc.lk'),(10319,'Mr','Asanka',1,'asanka @med.abc.lk'),(10320,'Ms','Nipuni',4,'nipuni @ar.abc.lk'),(10321,'Ms','Gunasekara',1,'gunasekara @med.abc.lk'),(10322,'Dr','Disanayake',4,'disanayake @.ar.abc.lk');
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> LOAD DATA LOCAL INFILE 'D:\17_ENG_113\students.txt' INTO TABLE Students COLUMNS TERMINATED BY '\t';
+ERROR 2 (HY000): File 'D:17_ENG_113students.txt' not found (Errcode: 2 - No such file or directory)
+mysql> LOAD DATA LOCAL INFILE 'D:\17_ENG_113\Students.txt' INTO TABLE Students COLUMNS TERMINATED BY '\t';
+ERROR 2 (HY000): File 'D:17_ENG_113Students.txt' not found (Errcode: 2 - No such file or directory)
+mysql> LOAD DATA LOCAL INFILE 'D:\Students.txt' INTO TABLE Students COLUMNS TERMINATED BY '\t';
+Query OK, 6 rows affected (0.03 sec)
+Records: 6  Deleted: 0  Skipped: 0  Warnings: 0
+
+mysql> LOAD DATA LOCAL INFILE 'D:\Courses.txt' INTO TABLE Courses COLUMNS TERMINATED BY '\t';
+Query OK, 10 rows affected, 3 warnings (0.00 sec)
+Records: 11  Deleted: 0  Skipped: 1  Warnings: 3
+
+mysql> SELECT*FROM Faculties;
++------------+----------------------+------------+
+| Faculty_ID | Faculty_name         | Location   |
++------------+----------------------+------------+
+|          1 | Medicine             | Gampaha    |
+|          2 | Engineering          | Rathmalana |
+|          3 | Science              | Kotte      |
+|          4 | Technology           | Nugegoda   |
+|          5 | Business and finance | Maharagama |
++------------+----------------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT*FROM lecturers;
++------------+-------+---------------+-----------+------------------------+
+| LecturerID | Title | Lecturer_name | FacultyID | Email                  |
++------------+-------+---------------+-----------+------------------------+
+|      10317 | Prof  | Nandana       |         3 | nandana @sci.abc.lk    |
+|      10318 | Dr    | Perera        |         2 | perera @eng.abc.lk     |
+|      10319 | Mr    | Asanka        |         1 | asanka @med.abc.lk     |
+|      10320 | Ms    | Nipuni        |         4 | nipuni @ar.abc.lk      |
+|      10321 | Ms    | Gunasekara    |         1 | gunasekara @med.abc.lk |
+|      10322 | Dr    | Disanayake    |         4 | disanayake @.ar.abc.lk |
++------------+-------+---------------+-----------+------------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT*FROM Students;
++-----------+--------+--------+------------+-----+-----------+---------+-----------------+
+| StudentID | FName  | Gender | DOB        | Age | FacultyID | Town    | Email           |
++-----------+--------+--------+------------+-----+-----------+---------+-----------------+
+|      1000 | Kamal  | M      | 2000-01-10 |  18 |         3 | Galle   | kamal@mail.com |
+|      1001 | Amal   | M      | 1999-12-25 |  19 |         2 | Kandy   | amal@mail.com  |
+|      1002 | Nimal  | M      | 1997-04-01 |  21 |         1 | Jaffna  | nimal@yao.com  |
+|      1003 | Amali  | F      | 1998-02-14 |  20 |         4 | Kandy   | amali@mail.com |
+|      1004 | Shamal | M      | 1997-04-14 |  21 |         3 | Matara  | sham97@yao.com |
+|      1005 | Nimali | F      | 1996-02-29 |  22 |         2 | Colombo | nimmi@yao.com   |
++-----------+--------+--------+------------+-----+-----------+---------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT*FROM Courses;
++----------+--------------+-----------+-----------+----------+
+| CourseID | Course_name  | FacultyID | noCredits | Semester |
++----------+--------------+-----------+-----------+----------+
+| M001     | Pharmacology |         1 |         4 |        4 |
+| E001     | Electronics  |         2 |         3 |        1 |
+| S001     | Organic      |         0 |         3 |        3 |
+| A001     | Literature   |         4 |         3 |        2 |
+| E002     | Robotics     |         2 |         4 |        6 |
+| M002     | Psychology   |         1 |         2 |        5 |
+| S002     | Mathematics  |         3 |         4 |        3 |
+| E004     | Computing    |         2 |         4 |        5 |
+| B001     | Commerce     |         5 |         2 |        1 |
+| S003     | Statistics   |         3 |         4 |        3 |
++----------+--------------+-----------+-----------+----------+
+10 rows in set (0.00 sec)
+
+mysql> UPDATE Faculties SET Location='Gangodawila' WHERE Faculty_name='Medicine';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM Faculties;
++------------+----------------------+-------------+
+| Faculty_ID | Faculty_name         | Location    |
++------------+----------------------+-------------+
+|          1 | Medicine             | Gangodawila |
+|          2 | Engineering          | Rathmalana  |
+|          3 | Science              | Kotte       |
+|          4 | Technology           | Nugegoda    |
+|          5 | Business and finance | Maharagama  |
++------------+----------------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> ALTER TABLE lecturers ADD Salary float(8,2);
+Query OK, 6 rows affected (0.25 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE Lecturers;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| LecturerID    | int(5)      | NO   | PRI | NULL    |       |
+| Title         | varchar(10) | NO   |     | NULL    |       |
+| Lecturer_name | varchar(20) | NO   |     | NULL    |       |
+| FacultyID     | int(6)      | NO   | MUL | NULL    |       |
+| Email         | varchar(25) | NO   |     | NULL    |       |
+| Salary        | float(8,2)  | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql>  UPDATE lecturers SET Salary=120000.00 WHERE LecturerID=10317;
+Query OK, 1 row affected (0.16 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE lecturers SET Salary=115000.00 WHERE LecturerID=10318;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE lecturers  SET Salary=100000.00  WHERE LecturerID=10319;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE lecturers  SET Salary=100000.00  WHERE LecturerID=10320;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE lecturers  SET Salary=100000.00  WHERE LecturerID=10321;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE lecturers  SET Salary=115000.00  WHERE LecturerID=10322;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT*FROM Lecturers;
++------------+-------+---------------+-----------+------------------------+-----------+
+| LecturerID | Title | Lecturer_name | FacultyID | Email                  | Salary    |
++------------+-------+---------------+-----------+------------------------+-----------+
+|      10317 | Prof  | Nandana       |         3 | nandana @sci.abc.lk    | 120000.00 |
+|      10318 | Dr    | Perera        |         2 | perera @eng.abc.lk     | 115000.00 |
+|      10319 | Mr    | Asanka        |         1 | asanka @med.abc.lk     | 100000.00 |
+|      10320 | Ms    | Nipuni        |         4 | nipuni @ar.abc.lk      | 100000.00 |
+|      10321 | Ms    | Gunasekara    |         1 | gunasekara @med.abc.lk | 100000.00 |
+|      10322 | Dr    | Disanayake    |         4 | disanayake @.ar.abc.lk | 115000.00 |
++------------+-------+---------------+-----------+------------------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> ALTER TABLE Students DROP COLUMN Age;
+Query OK, 6 rows affected (0.16 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE Students ADD Last_name varchar(20);
+Query OK, 6 rows affected (0.08 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE Students;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| StudentID | int(5)      | NO   | PRI | NULL    |       |
+| FName     | varchar(20) | NO   |     | NULL    |       |
+| Gender    | char(1)     | NO   |     | NULL    |       |
+| DOB       | date        | NO   |     | NULL    |       |
+| FacultyID | int(6)      | NO   | MUL | NULL    |       |
+| Town      | varchar(15) | NO   |     | NULL    |       |
+| Email     | varchar(25) | NO   |     | NULL    |       |
+| Last_name | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> UPDATE Students  SET Last_name='Ranasinghe' WHERE StudentID=1000;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE Students  SET Last_name='Silva' WHERE StudentID=1001;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE Students  SET Last_name='Fernando' WHERE StudentID=1002;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE Students  SET Last_name='Peris' WHERE StudentID=1003;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE Students  SET Last_name='Joshep' WHERE StudentID=1004;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE Students  SET Last_name='Alwis' WHERE StudentID=1005;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> INSERT INTO Students VALUES(1006,'Madushi','F','1996-03-15',4,'Wattala','madushi@gmail.com','Rnasinghe');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT*FROM Students;
++-----------+---------+--------+------------+-----------+---------+-------------------+------------+
+| StudentID | FName   | Gender | DOB        | FacultyID | Town    | Email             | Last_name  |
++-----------+---------+--------+------------+-----------+---------+-------------------+------------+
+|      1000 | Kamal   | M      | 2000-01-10 |         3 | Galle   | kamal@mail.com   | Ranasinghe |
+|      1001 | Amal    | M      | 1999-12-25 |         2 | Kandy   | amal@mail.com    | Silva      |
+|      1002 | Nimal   | M      | 1997-04-01 |         1 | Jaffna  | nimal@yao.com    | Fernando   |
+|      1003 | Amali   | F      | 1998-02-14 |         4 | Kandy   | amali@mail.com   | Peris      |
+|      1004 | Shamal  | M      | 1997-04-14 |         3 | Matara  | sham97@yao.com   | Joshep     |
+|      1005 | Nimali  | F      | 1996-02-29 |         2 | Colombo | nimmi@yao.com     | Alwis      |
+|      1006 | Madushi | F      | 1996-03-15 |         4 | Wattala | madushi@gmail.com | Rnasinghe  |
++-----------+---------+--------+------------+-----------+---------+-------------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT *FROM lecturers;
++------------+-------+---------------+-----------+------------------------+-----------+
+| LecturerID | Title | Lecturer_name | FacultyID | Email                  | Salary    |
++------------+-------+---------------+-----------+------------------------+-----------+
+|      10317 | Prof  | Nandana       |         3 | nandana @sci.abc.lk    | 120000.00 |
+|      10318 | Dr    | Perera        |         2 | perera @eng.abc.lk     | 115000.00 |
+|      10319 | Mr    | Asanka        |         1 | asanka @med.abc.lk     | 100000.00 |
+|      10320 | Ms    | Nipuni        |         4 | nipuni @ar.abc.lk      | 100000.00 |
+|      10321 | Ms    | Gunasekara    |         1 | gunasekara @med.abc.lk | 100000.00 |
+|      10322 | Dr    | Disanayake    |         4 | disanayake @.ar.abc.lk | 115000.00 |
++------------+-------+---------------+-----------+------------------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql>  SELECT Lecturer_name FROM Lecturers;
++---------------+
+| Lecturer_name |
++---------------+
+| Nandana       |
+| Perera        |
+| Asanka        |
+| Nipuni        |
+| Gunasekara    |
+| Disanayake    |
++---------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT FName,Last_name,FacultyID FROM Students;
++---------+------------+-----------+
+| FName   | Last_name  | FacultyID |
++---------+------------+-----------+
+| Kamal   | Ranasinghe |         3 |
+| Amal    | Silva      |         2 |
+| Nimal   | Fernando   |         1 |
+| Amali   | Peris      |         4 |
+| Shamal  | Joshep     |         3 |
+| Nimali  | Alwis      |         2 |
+| Madushi | Rnasinghe  |         4 |
++---------+------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT Lecturer_name,Salary FROM Lecturers ORDER BY Salary ASC;
++---------------+-----------+
+| Lecturer_name | Salary    |
++---------------+-----------+
+| Asanka        | 100000.00 |
+| Nipuni        | 100000.00 |
+| Gunasekara    | 100000.00 |
+| Perera        | 115000.00 |
+| Disanayake    | 115000.00 |
+| Nandana       | 120000.00 |
++---------------+-----------+
+6 rows in set (0.10 sec)
+
+mysql> SELECT * FROM lecturers WHERE FacultyID=1;
++------------+-------+---------------+-----------+------------------------+-----------+
+| LecturerID | Title | Lecturer_name | FacultyID | Email                  | Salary    |
++------------+-------+---------------+-----------+------------------------+-----------+
+|      10319 | Mr    | Asanka        |         1 | asanka @med.abc.lk     | 100000.00 |
+|      10321 | Ms    | Gunasekara    |         1 | gunasekara @med.abc.lk | 100000.00 |
++------------+-------+---------------+-----------+------------------------+-----------+
+2 rows in set (0.11 sec)
+
+mysql> SELECT LecturerID FROM lecturers WHERE FacultyID=2;
++------------+
+| LecturerID |
++------------+
+|      10318 |
++------------+
+1 row in set (0.00 sec)
+
+mysql>  SELECT *FROM Courses WHERE noCredits<3; 
++----------+-------------+-----------+-----------+----------+
+| CourseID | Course_name | FacultyID | noCredits | Semester |
++----------+-------------+-----------+-----------+----------+
+| M002     | Psychology  |         1 |         2 |        5 |
+| B001     | Commerce    |         5 |         2 |        1 |
++----------+-------------+-----------+-----------+----------+
+2 rows in set (0.10 sec)
+
+mysql> SELECT FName FROM Students WHERE Town='Galle';
++-------+
+| FName |
++-------+
+| Kamal |
++-------+
+1 row in set (0.00 sec)
+
+mysql> SELECT *FROM lecturers WHERE FacultyID=1;
++------------+-------+---------------+-----------+------------------------+-----------+
+| LecturerID | Title | Lecturer_name | FacultyID | Email                  | Salary    |
++------------+-------+---------------+-----------+------------------------+-----------+
+|      10319 | Mr    | Asanka        |         1 | asanka @med.abc.lk     | 100000.00 |
+|      10321 | Ms    | Gunasekara    |         1 | gunasekara @med.abc.lk | 100000.00 |
++------------+-------+---------------+-----------+------------------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT Faculties.Faculty_Name,Faculties.Faculty_ID,COUNT(Students.FacultyID) AS 'Number Of Students' FROM Faculties LEFT JOIN Students ON Faculties.Faculty_ID=Students.FacultyID GROUP BY Faculties.Faculty_ID ORDER BY 'Number Of Students';
++----------------------+------------+--------------------+
+| Faculty_Name         | Faculty_ID | Number Of Students |
++----------------------+------------+--------------------+
+| Medicine             |          1 |                  1 |
+| Engineering          |          2 |                  2 |
+| Science              |          3 |                  2 |
+| Technology           |          4 |                  2 |
+| Business and finance |          5 |                  0 |
++----------------------+------------+--------------------+
+5 rows in set (0.15 sec)
+
+mysql> SELECT *FROM Courses WHERE Semester=3 OR Semester=5;
++----------+-------------+-----------+-----------+----------+
+| CourseID | Course_name | FacultyID | noCredits | Semester |
++----------+-------------+-----------+-----------+----------+
+| S001     | Organic     |         0 |         3 |        3 |
+| M002     | Psychology  |         1 |         2 |        5 |
+| S002     | Mathematics |         3 |         4 |        3 |
+| E004     | Computing   |         2 |         4 |        5 |
+| S003     | Statistics  |         3 |         4 |        3 |
++----------+-------------+-----------+-----------+----------+
+5 rows in set (0.07 sec)
+
+mysql> SELECT MIN(Salary) FROM lecturers;
++-------------+
+| MIN(Salary) |
++-------------+
+|   100000.00 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MAX(Salary) FROM lecturers;
++-------------+
+| MAX(Salary) |
++-------------+
+|   120000.00 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT*FROM lecturers WHERE Salary BETWEEN 100000 AND 120000;
++------------+-------+---------------+-----------+------------------------+-----------+
+| LecturerID | Title | Lecturer_name | FacultyID | Email                  | Salary    |
++------------+-------+---------------+-----------+------------------------+-----------+
+|      10317 | Prof  | Nandana       |         3 | nandana @sci.abc.lk    | 120000.00 |
+|      10318 | Dr    | Perera        |         2 | perera @eng.abc.lk     | 115000.00 |
+|      10319 | Mr    | Asanka        |         1 | asanka @med.abc.lk     | 100000.00 |
+|      10320 | Ms    | Nipuni        |         4 | nipuni @ar.abc.lk      | 100000.00 |
+|      10321 | Ms    | Gunasekara    |         1 | gunasekara @med.abc.lk | 100000.00 |
+|      10322 | Dr    | Disanayake    |         4 | disanayake @.ar.abc.lk | 115000.00 |
++------------+-------+---------------+-----------+------------------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT noCredits,GROUP_CONCAT(Course_Name) Courses FROM Courses GROUP BY noCredits;
++-----------+--------------------------------------------------------+
+| noCredits | Courses                                                |
++-----------+--------------------------------------------------------+
+|         2 | Psychology,Commerce                                    |
+|         3 | Electronics,Organic,Literature                         |
+|         4 | Pharmacology,Robotics,Mathematics,Computing,Statistics |
++-----------+--------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT *FROM Students WHERE Last_name LIKE 'A%';
++-----------+--------+--------+------------+-----------+---------+---------------+-----------+
+| StudentID | FName  | Gender | DOB        | FacultyID | Town    | Email         | Last_name |
++-----------+--------+--------+------------+-----------+---------+---------------+-----------+
+|      1005 | Nimali | F      | 1996-02-29 |         2 | Colombo | nimmi@yao.com | Alwis     |
++-----------+--------+--------+------------+-----------+---------+---------------+-----------+
+1 row in set (0.10 sec)
+
+mysql> DELETE FROM Students WHERE StudentID=1004;
+Query OK, 1 row affected (0.09 sec)
+
+mysql> SELECT * FROM Students;
++-----------+---------+--------+------------+-----------+---------+-------------------+------------+
+| StudentID | FName   | Gender | DOB        | FacultyID | Town    | Email             | Last_name  |
++-----------+---------+--------+------------+-----------+---------+-------------------+------------+
+|      1000 | Kamal   | M      | 2000-01-10 |         3 | Galle   | kamal@mail.com   | Ranasinghe |
+|      1001 | Amal    | M      | 1999-12-25 |         2 | Kandy   | amal@mail.com    | Silva      |
+|      1002 | Nimal   | M      | 1997-04-01 |         1 | Jaffna  | nimal@yao.com    | Fernando   |
+|      1003 | Amali   | F      | 1998-02-14 |         4 | Kandy   | amali@mail.com   | Peris      |
+|      1005 | Nimali  | F      | 1996-02-29 |         2 | Colombo | nimmi@yao.com     | Alwis      |
+|      1006 | Madushi | F      | 1996-03-15 |         4 | Wattala | madushi@gmail.com | Rnasinghe  |
++-----------+---------+--------+------------+-----------+---------+-------------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> Terminal close -- exit!
+    -> 
+    -> Terminal close -- exit!
